@@ -14,7 +14,7 @@ router.get("/", auth, async (req, res) => {
 
 router.post("/", auth, async (req, res) => {
   try {
-    const { title, description, code } = req.body;
+    const { title, description, code, tag } = req.body;
 
     //validation
     if (!title || !code) {
@@ -27,6 +27,7 @@ router.post("/", auth, async (req, res) => {
       title,
       description,
       code,
+      tag,
       user: req.user,
     });
 
@@ -40,7 +41,7 @@ router.post("/", auth, async (req, res) => {
 
 router.put("/:id", auth, async (req, res) => {
   try {
-    const { title, description, code } = req.body;
+    const { title, description, code, tag } = req.body;
     const snippetId = req.params.id;
 
     //validation
@@ -70,6 +71,7 @@ router.put("/:id", auth, async (req, res) => {
     originalSnippet.title = title;
     originalSnippet.description = description;
     originalSnippet.code = code;
+    originalSnippet.tag = tag;
 
     const savedSnippet = await originalSnippet.save();
 

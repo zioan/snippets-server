@@ -7,6 +7,7 @@ const snippetSchema = new mongoose.Schema(
     description: { type: String },
     code: { type: String },
     user: { type: ObjectId, required: true },
+    tag: { type: String },
   },
   {
     timestamps: true,
