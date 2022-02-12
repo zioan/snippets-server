@@ -42,6 +42,7 @@ router.post("/", async (req, res) => {
     const newUser = new User({
       email: email,
       passwordHash: passwordHash,
+      userTags: ["js", "php", "c#", "java"],
     });
 
     const savedUser = await newUser.save();
@@ -108,6 +109,7 @@ router.post("/login", async (req, res) => {
       {
         id: existingUser._id,
         username: existingUser.email,
+        userTags: existingUser.userTags,
       },
       process.env.JWT_SECRET
     );
@@ -155,8 +157,38 @@ router.get("/userName", (req, res) => {
     const validatedUser = jwt.verify(token, process.env.JWT_SECRET);
 
     res.json(validatedUser.username);
+    // console.log(validatedUser.username);
   } catch (err) {
     return res.json(null);
+  }
+});
+
+router.get("/userTags", (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if (!token) return res.json(null);
+
+    const validatedUser = jwt.verify(token, process.env.JWT_SECRET);
+
+    res.json(validatedUser.userTags);
+  } catch (err) {
+    return res.json(null);
+  }
+});
+
+router.put("/addTag/:id", async (req, res) => {
+  try {
+    const { tag } = req.body;
+    console.log(tag);
+    const userId = req.params.id;
+
+    const userData = await User.findById(userId);
+
+    userData.userTags.push(tag);
+    userData.save();
+  } catch (err) {
+    res.status(500).send();
   }
 });
 
