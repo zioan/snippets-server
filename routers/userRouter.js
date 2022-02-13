@@ -42,7 +42,20 @@ router.post("/", async (req, res) => {
     const newUser = new User({
       email: email,
       passwordHash: passwordHash,
-      userTags: ["js", "php", "c#", "java"],
+      userTags: [
+        "no tag",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React",
+        "NodeJs",
+        "Python",
+        "Java",
+        "PHP",
+        "C#",
+        "DB",
+        "other",
+      ],
     });
 
     const savedUser = await newUser.save();
